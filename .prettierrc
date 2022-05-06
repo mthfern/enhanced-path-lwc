@@ -1,0 +1,20 @@
+{
+  "arrowParens": "avoid",
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "**/lwc/**/*.js",
+      "options": { "printWidth": 80 }
+    },
+    {
+      "files": "**/lwc/**/*.html",
+      "options": { "parser": "lwc" }
+    },
+    {
+      "files": "*.{cmp,page,component,xml}",
+      "options": { "parser": "html" }
+    }
+  ]
+}

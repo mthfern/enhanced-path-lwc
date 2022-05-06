@@ -1,0 +1,25 @@
+{
+  "orgName": "salesforce-lab",
+  "edition": "Developer",
+  "hasSampleData": true,
+  "language": "en_US",
+  "features": [
+    "EnableSetPasswordInApi",
+    "LightningSalesConsole",
+    "LightningServiceConsole",
+    "SalesUser",
+    "ServiceCloud",
+    "ServiceUser"
+  ],
+  "settings": {
+    "securitySettings": {
+      "enableAdminLoginAsAnyUser": true
+    },
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    }
+  }
+}
