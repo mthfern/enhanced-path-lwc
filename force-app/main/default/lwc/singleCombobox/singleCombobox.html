@@ -1,0 +1,19 @@
+<template>
+  <lightning-layout multiple-rows vertical-align="center">
+    <lightning-layout-item size="12" flexibility="auto" padding="around-medium">
+      <lightning-combobox
+        name="stage"
+        label="Stage"
+        value={value}
+        placeholder="Select Stage"
+        options={options}
+        onchange={handleChange}
+        required
+      ></lightning-combobox>
+    </lightning-layout-item>
+    <lightning-layout-item size="12" flexibility="auto" padding="around-medium">
+    </lightning-layout-item>
+    <lightning-layout-item size="12" flexibility="auto" padding="around-medium">
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

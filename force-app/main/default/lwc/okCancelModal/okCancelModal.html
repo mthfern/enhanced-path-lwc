@@ -1,0 +1,45 @@
+<template>
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container">
+      <lightning-button-icon
+        class="slds-modal__close"
+        icon-name="utility:close"
+        variant="bare-inverse"
+        size="large"
+        onclick={handleClose}
+        alternative-text="Close window"
+        ><label></label>
+      </lightning-button-icon>
+      <div class="slds-modal__header">
+        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{title}</h1>
+      </div>
+      <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+        <slot oncontentcallback={contentCallback}
+          >Slot in a LWC that extends modalContentInterface</slot
+        >
+      </div>
+      <div class="slds-modal__footer">
+        <lightning-button
+          variant="brand"
+          label={okButtonLabel}
+          title={okButtonLabel}
+          onclick={handleOk}
+          class="slds-var-m-left_x-small"
+        ></lightning-button>
+        <lightning-button
+          label={cancelButtonLabel}
+          title={cancelButtonLabel}
+          onclick={handleCancel}
+          class="slds-var-m-left_x-small"
+        ></lightning-button>
+      </div>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

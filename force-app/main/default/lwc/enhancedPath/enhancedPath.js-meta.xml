@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<LightningComponentBundle xmlns='http://soap.sforce.com/2006/04/metadata'>
+    <apiVersion>54.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Enhanced Path</masterLabel>
+    <description>Path with enhanced features</description>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets='lightning__RecordPage'>
+            <property
+                    label='Source Field'
+                    name='sourceField'
+                    type='String'
+                    datasource='apex://EnhancedPathSourceField'
+                    />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
