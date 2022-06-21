@@ -39,5 +39,5 @@ $RECYCLE.BIN/
 # Local environment variables
 .env
 
-# forceignore
-.forceignore
+# Temp files
+tempCodeRunnerFile.js
