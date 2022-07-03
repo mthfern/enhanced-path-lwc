@@ -1,11 +1,8 @@
 import { LightningElement, api, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, updateRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-import { ToastEvent, ToastVariant } from 'c/toast';
 import EnhancedPathItem from './enhancedPathItem';
-
-const errorToast = ToastEvent.build(ToastVariant.ERROR);
-const successToast = ToastEvent.build(ToastVariant.SUCCESS);
 
 export default class EnhancedPath extends LightningElement {
   @api recordId;
@@ -17,7 +14,7 @@ export default class EnhancedPath extends LightningElement {
   items = [];
 
   buttonLabel = '';
-  showClosedModal = false;
+  showClosedModal = false; 
 
   get sourceFieldValue() {
     return getFieldValue(this.record, this.sourceFieldApiName);
@@ -191,7 +188,7 @@ export default class EnhancedPath extends LightningElement {
       const nextItem = this.getNextItem();
       this.updateItem(nextItem)
         .then(() => {
-          this.showUpdateRecordSuccess();
+          this.handleUpdateRecordSuccess();
         })
         .catch(error => {
           this.handleError(error);
@@ -208,7 +205,7 @@ export default class EnhancedPath extends LightningElement {
       const nextItem = this.getItemByValue(value);
       this.updateItem(nextItem)
         .then(() => {
-          this.showUpdateRecordSuccess();
+          this.handleUpdateRecordSuccess();
         })
         .catch(error => {
           this.handleError(error);
@@ -267,23 +264,32 @@ export default class EnhancedPath extends LightningElement {
     }
   }
 
-  showUpdateRecordSuccess() {
-    const evt = successToast
-      .setTitle(`${this.getFieldLabel(this.sourceField)} changed succesfully!`)
-      .createEvent();
-    this.dispatchEvent(evt);
+  handleUpdateRecordSuccess() {
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: `${this.getFieldLabel(this.sourceField)} changed succesfully!`,
+        message: '',
+        variant: 'success'
+      })
+    );
   }
 
   handleError(error, showToast) {
-    console.log('handleError', error);
-    const { code, message } = error.body || { code: 'UNKNOWN', message: error };
+    const { code: title, message } = error.body || {
+      code: 'UNHANDLED',
+      message: error
+    };
+    console.error('ERROR: %s %s', title, message);
     if (showToast) {
-      const evt = this.dispatchEvent(
-        errorToast.setTitle(code).setMessage(message).createEvent()
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title,
+          message,
+          variant: 'error'
+        })
       );
-      this.dispatchEvent(evt);
     }
 
-    // TODO: show error image
+    // TODO: render error img
   }
 }
