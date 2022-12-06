@@ -3,6 +3,7 @@
   "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "none",
+  "bracketSameLine": true,
   "overrides": [
     {
       "files": "**/lwc/**/*.js",

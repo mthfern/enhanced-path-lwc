@@ -14,7 +14,7 @@ export default class EnhancedPath extends LightningElement {
   items = [];
 
   buttonLabel = '';
-  showClosedModal = false; 
+  showClosedModal = false;
 
   get sourceFieldValue() {
     return getFieldValue(this.record, this.sourceFieldApiName);
