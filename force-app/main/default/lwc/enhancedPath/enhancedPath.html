@@ -43,9 +43,12 @@
               <button
                 class="slds-button slds-button_brand slds-path__mark-complete"
                 onclick={handleButtonClick}>
-                <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
-                  <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#check"></use></svg
-                ><span><label>{buttonLabel}</label></span>
+                <template if:true={showCheckIcon}>
+                  <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  </svg>
+                </template>
+                <span><label>{buttonLabel}</label></span>
               </button>
             </div>
           </template>

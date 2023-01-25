@@ -52,6 +52,11 @@ export default class EnhancedPath extends LightningElement {
     return this.items.length > 0;
   }
 
+  get showCheckIcon() {
+    const item = this.activeItem;
+    return item.isCurrent && !item.isClosed;
+  }
+
   get closedOptions() {
     const options = [];
     for (const item of this.items) {
@@ -79,37 +84,6 @@ export default class EnhancedPath extends LightningElement {
   })
   wiredGetPicklistValues(result) {
     this.handleGetPicklistValues(result);
-  }
-
-  getNextItem() {
-    if (this.activeItem.id === this.currentItem.id) {
-      const currentIndex = this.getIndexOf(this.currentItem);
-      return currentIndex === this.items.length - 1
-        ? this.items[currentIndex]
-        : this.items[currentIndex + 1];
-    }
-
-    return this.activeItem;
-  }
-
-  getItemById(id) {
-    return this.items.find(item => item.id === id);
-  }
-
-  getItemByValue(value) {
-    return this.items.find(item => item.value === value);
-  }
-
-  getIndexOf(item) {
-    return this.items.indexOf(item);
-  }
-
-  getFieldApiName(fieldName) {
-    return `${this.objectApiName}.${fieldName}`;
-  }
-
-  getFieldLabel(fieldName) {
-    return this.objectInfo.fields[fieldName].label;
   }
 
   handleGetRecord({ error, data }) {
@@ -215,6 +189,37 @@ export default class EnhancedPath extends LightningElement {
     this.showClosedModal = false;
   }
 
+  getNextItem() {
+    if (this.activeItem.id === this.currentItem.id) {
+      const currentIndex = this.getIndexOf(this.currentItem);
+      return currentIndex === this.items.length - 1
+        ? this.items[currentIndex]
+        : this.items[currentIndex + 1];
+    }
+
+    return this.activeItem;
+  }
+
+  getItemById(id) {
+    return this.items.find(item => item.id === id);
+  }
+
+  getItemByValue(value) {
+    return this.items.find(item => item.value === value);
+  }
+
+  getIndexOf(item) {
+    return this.items.indexOf(item);
+  }
+
+  getFieldApiName(fieldName) {
+    return `${this.objectApiName}.${fieldName}`;
+  }
+
+  getFieldLabel(fieldName) {
+    return this.objectInfo.fields[fieldName].label;
+  }
+
   updateItem({ value }) {
     const fields = {};
     fields.Id = this.recordId;
@@ -255,12 +260,15 @@ export default class EnhancedPath extends LightningElement {
   }
 
   renderButtonLabel() {
-    if (this.activeItem.isCurrent) {
-      this.buttonLabel = this.activeItem.isClosed
+    const item = this.activeItem;
+    if (item.isCurrent) {
+      this.buttonLabel = item.isClosed
         ? 'Change Closed State'
         : 'Mark Stage as Complete';
     } else {
-      this.buttonLabel = 'Mark as Current Stage';
+      this.buttonLabel = item.isClosed
+        ? 'Select Closed Stage'
+        : 'Mark as Current Stage';
     }
   }
 
@@ -289,7 +297,5 @@ export default class EnhancedPath extends LightningElement {
         })
       );
     }
-
-    // TODO: render error img
   }
 }
