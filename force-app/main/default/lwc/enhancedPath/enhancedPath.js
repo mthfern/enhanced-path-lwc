@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, updateRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import EnhancedPathItem from './enhancedPathItem';
+import { reduceErrors } from 'c/errorHandlingUtils';
 
 export default class EnhancedPath extends LightningElement {
   @api recordId;
@@ -111,9 +112,11 @@ export default class EnhancedPath extends LightningElement {
   handleGetPicklistValues({ error, data }) {
     if (data) {
       this.items = [];
+      let values = data.values;
+      // TODO: let values = getPicklistAtributes(data.values);
       let hasHidden = false;
 
-      for (const item of data.values) {
+      for (const item of values) {
         const { label, value, attributes } = item;
         const { closed = false, won = false } = attributes || {};
         const isCurrent = value === this.sourceFieldValue;
@@ -136,10 +139,8 @@ export default class EnhancedPath extends LightningElement {
 
       this.updateCompleteItems();
       this.refreshDOM();
-    }
-
-    if (error) {
-      this.picklistValues = undefined;
+    } else if (error) {
+      this.items = [];
       this.handleError(error, false);
     }
   }
@@ -283,11 +284,9 @@ export default class EnhancedPath extends LightningElement {
   }
 
   handleError(error, showToast) {
-    const { code: title, message } = error.body || {
-      code: 'UNHANDLED',
-      message: error
-    };
-    console.error('ERROR: %s %s', title, message);
+    const message = reduceErrors(error).join('\n');
+    const title = 'Errors at LightningComponentBundle:EnhancedPath:';
+    console.error(`${title}\n${message}`);
     if (showToast) {
       this.dispatchEvent(
         new ShowToastEvent({

@@ -17,7 +17,6 @@ public with sharing class EnhancedPathSourceField extends VisualEditor.DynamicPi
     for (String field : fieldsByName.keySet()) {
       Schema.DisplayType displayType = fieldsByName.get(field).getDescribe().getType();
       if (displayType == Schema.DisplayType.PICKLIST) {
-        // String label = fieldsByName.get(field).getDescribe().getLabel();
         String value = fieldsByName.get(field).getDescribe().getName();
         values.addRow(new VisualEditor.DataRow(value, value));
       }
